@@ -1,0 +1,172 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Speech-to-Text Bubble Display Web App Architecture
+
+## System Overview
+
+This NextJS application will display transcribed speech in real-time as individual word bubbles, with words fading after 2 seconds unless pinned by the user. The system leverages WhisperX for accurate speech transcription.
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                      Client Browser                         │
+│                                                             │
+│  ┌─────────────┐    ┌────────────────┐    ┌──────────────┐  │
+│  │ Audio Input │───▶│ Speech Capture │───▶│ WebSocket    │  │
+│  └─────────────┘    └────────────────┘    │ Connection   │  │
+│                                           └──────┬───────┘  │
+│                                                  │          │
+│  ┌─────────────────────────────────┐             │          │
+│  │ React UI Components             │             │          │
+│  │ ┌─────────────┐ ┌────────────┐  │◀────────────┘          │
+│  │ │ Word Bubbles│ │ Controls   │  │                        │
+│  │ └─────────────┘ └────────────┘  │                        │
+│  └─────────────────────────────────┘                        │
+└─────────────────────────────────────────────────────────────┘
+                          ▲
+                          │
+                          ▼
+┌─────────────────────────────────────────────────────────────┐
+│                        NextJS Server                        │
+│                                                             │
+│  ┌────────────────┐    ┌────────────────┐                   │
+│  │ WebSocket      │───▶│ Audio Buffer   │                   │
+│  │ Server         │    │ Manager        │                   │
+│  └────────────────┘    └───────┬────────┘                   │
+│                                │                            │
+│                                ▼                            │
+│  ┌────────────────────────────────────────────────────┐     │
+│  │ WhisperX Integration Service                        │     │
+│  │                                                     │     │
+│  │  ┌────────────────┐    ┌─────────────────────────┐ │     │
+│  │  │ Python Process │◀──▶│ Real-time Transcription │ │     │
+│  │  │ Management     │    │ Pipeline                │ │     │
+│  │  └────────────────┘    └─────────────────────────┘ │     │
+│  └────────────────────────────────────────────────────┘     │
+└─────────────────────────────────────────────────────────────┘
+```
+
+## Core Components
+
+### Frontend Components
+
+1. **Audio Capture Module**
+   - Manages microphone access and permissions
+   - Buffers audio input for streaming
+   - Handles audio state (active/inactive)
+
+2. **Word Bubble Component**
+   - Renders individual word bubbles
+   - Manages animations (appearance, fading)
+   - Handles user interactions (pinning/unpinning)
+
+3. **Control Panel Component**
+   - Contains the on/off toggle switch
+   - Displays system status indicators
+   - Provides user controls for settings
+
+4. **WebSocket Client**
+   - Establishes real-time connection with backend
+   - Streams audio data to server
+   - Receives transcribed words with timestamps
+
+### Backend Services
+1. **WebSocket Server**
+   - Accepts client connections
+   - Receives audio streams
+   - Sends transcription results back to clients
+
+2. **Audio Buffer Manager**
+   - Processes incoming audio chunks
+   - Prepares data for WhisperX processing
+   - Manages audio segment boundaries
+
+3. **WhisperX Integration Service**
+   - Interfaces with WhisperX Python package
+   - Runs transcription on audio segments
+   - Extracts word-level timing information
+
+4. **Transcription State Manager**
+   - Maintains session state
+   - Tracks word history and pinned items
+   - Handles cleanup of expired words
+
+## Technology Stack
+
+1. **Frontend**
+   - NextJS (React framework)
+   - TypeScript
+   - TailwindCSS for styling
+   - Socket.IO client for WebSocket communication
+   - Web Audio API for microphone access
+
+2. **Backend**
+   - NextJS API routes
+   - Socket.IO server
+   - Node.js child process for Python integration
+   - WebSocket for real-time communication
+
+3. **Speech Processing**
+   - WhisperX Python package
+   - FFmpeg for audio processing
+   - PyTorch (required by WhisperX)
+
+## Implementation Approach
+
+### WhisperX Integration
+
+The application will use the Child Process approach for integrating WhisperX:
+
+- Spawn Python process from Node.js
+- Pass audio data via standard I/O or temporary files
+- Write a Python wrapper script that loads WhisperX and processes audio chunks
+- Use JSON for structured communication between Node.js and Python
+- Implement proper error handling and process lifecycle management
+
+### Real-time Processing Pipeline
+
+1. Audio is captured in the browser in small chunks (250-500ms)
+2. Audio chunks are sent to the server via WebSocket
+3. Server buffers audio until a meaningful segment is available
+4. WhisperX processes segment and returns words with timestamps
+5. Words are streamed back to client as they become available
+6. Frontend displays words and manages their lifecycle
+
+### Data Flow
+
+```
+┌────────────┐     ┌────────────┐     ┌────────────┐     ┌────────────┐
+│            │     │            │     │            │     │            │
+│  Capture   │────▶│  Buffer    │────▶│ WhisperX   │────▶│ Process    │
+│  Audio     │     │  Audio     │     │ Processing │     │ Results    │
+│            │     │            │     │            │     │            │
+└────────────┘     └────────────┘     └────────────┘     └────────────┘
+       │                                                        │
+       │                                                        │
+       ▼                                                        ▼
+┌────────────┐                                           ┌────────────┐
+│            │                                           │            │
+│  Client    │◀─────────────────────────────────────────│  Server    │
+│  Browser   │                                           │  Backend   │
+│            │                                           │            │
+└────────────┘                                           └────────────┘
+```
+
+## Deployment Considerations
+
+1. **Environment Requirements**
+   - Python 3.8+ for WhisperX
+   - Node.js 18+ for NextJS
+   - GPU access for optimal WhisperX performance
+
+2. **Containerization**
+   - Docker for consistent deployment
+   - Multi-stage build for frontend and backend
+   - Volume mounting for model caching
+
+3. **Scaling Strategy**
+   - Horizontal scaling for WebSocket servers
+   - Vertical scaling for WhisperX processing
+   - Model caching to improve performance
