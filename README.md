@@ -1,36 +1,75 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# WhisperWords
+
+A real-time speech-to-text application that displays transcribed speech as word bubbles. Words fade away after 2 seconds unless pinned by the user.
+
+## Features
+
+- Real-time speech capture using Web Audio API
+- Words appear as individual bubbles
+- Words automatically fade after 2 seconds
+- Words can be pinned to keep them on screen
+- Visual status indicators for microphone and transcription status
+- Clean, responsive UI built with NextJS and TailwindCSS
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- Node.js 18+ 
+- npm or yarn
+
+### Installation
+
+1. Clone the repository
+   ```bash
+   git clone https://github.com/yourusername/whisper-words.git
+   cd whisper-words
+   ```
+
+2. Install dependencies
+   ```bash
+   npm install
+   ```
+
+3. Start the development server
+   ```bash
+   npm run dev
+   ```
+
+4. Open [http://localhost:3000](http://localhost:3000) in your browser
+
+## Project Structure
+
+```
+whisper-words/
+├── src/
+│   ├── app/
+│   │   ├── components/    # UI components
+│   │   ├── hooks/         # Custom React hooks
+│   │   ├── services/      # Services for audio processing
+│   │   ├── types/         # TypeScript type definitions
+│   │   ├── globals.css    # Global styles
+│   │   ├── layout.tsx     # Root layout
+│   │   └── page.tsx       # Main page
+│   └── ...
+├── public/                # Static assets
+└── ...
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Future Enhancements
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Integration with WhisperX for accurate speech transcription
+- WebSocket server for real-time communication
+- Support for multiple languages
+- User preferences for fade timing and appearance
+- Export/save functionality for pinned words
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## License
 
-## Learn More
+This project is licensed under the MIT License - see the LICENSE file for details.
 
-To learn more about Next.js, take a look at the following resources:
+## Acknowledgments
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- WhisperX for speech recognition technology
+- NextJS team for the amazing framework
+- TailwindCSS for the styling utilities

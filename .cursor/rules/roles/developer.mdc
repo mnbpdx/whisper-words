@@ -11,6 +11,7 @@ For this session, you're going to take on the role of a software developer imple
 - Run tests frequently during development, and ALWAYS ensure ALL tests are green before committing:
    - For all tests: `./run_all_tests.sh`.
    - For specific component: See appropriate test command. If available, it'll be in the tests.mdc rules.
+- When you've finished building something, ask the human/user to manually test the web app to see if your feature is working, and to ensure nothing has regressed.
 
 ### Git
 - All work should be on a feature branch.
