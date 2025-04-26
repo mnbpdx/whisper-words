@@ -1,6 +1,6 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import audioService from '../services/audioService';
-import { AudioState, MicrophonePermissionState } from '../types/audio';
+import { AudioState, MicrophonePermissionState, AudioChunk } from '../types/audio';
 
 export const useAudioCapture = () => {
   const [audioState, setAudioState] = useState<AudioState>({
@@ -9,6 +9,9 @@ export const useAudioCapture = () => {
     micPermission: 'prompt',
     error: null,
   });
+  const [audioChunks, setAudioChunks] = useState<AudioChunk[]>([]);
+  const [isCapturing, setIsCapturing] = useState(false);
+  const chunksRef = useRef<AudioChunk[]>([]);
 
   // Check for microphone permission on mount
   useEffect(() => {
@@ -34,56 +37,78 @@ export const useAudioCapture = () => {
     };
   }, []);
 
+  // Start audio capture
+  const startCapture = useCallback(async () => {
+    try {
+      // Initialize audio if needed
+      const initialized = await audioService.initialize();
+      if (!initialized) {
+        throw new Error('Failed to initialize audio capture.');
+      }
+
+      // Start capturing audio
+      audioService.startCapture((audioData) => {
+        const newChunk: AudioChunk = {
+          data: audioData,
+          timestamp: Date.now(),
+          sampleRate: audioService.getSampleRate(),
+          channelCount: audioService.getChannelCount(),
+        };
+        
+        // Update the ref synchronously
+        chunksRef.current = [...chunksRef.current, newChunk];
+        
+        // Update state (will cause re-render)
+        setAudioChunks(chunksRef.current);
+      });
+      
+      setIsCapturing(true);
+      setAudioState(prevState => ({
+        ...prevState,
+        isActive: true,
+        isListening: true,
+        error: null,
+      }));
+    } catch (error) {
+      console.error('Error starting audio capture:', error);
+      setAudioState(prevState => ({
+        ...prevState,
+        error: 'Failed to start audio capture. Please check your microphone permissions.',
+      }));
+      throw error;
+    }
+  }, []);
+
+  // Stop audio capture
+  const stopCapture = useCallback(() => {
+    try {
+      audioService.stopCapture();
+      setIsCapturing(false);
+      setAudioState(prevState => ({
+        ...prevState,
+        isActive: false,
+        isListening: false,
+      }));
+      // Clear chunks
+      chunksRef.current = [];
+      setAudioChunks([]);
+    } catch (error) {
+      setAudioState(prevState => ({
+        ...prevState,
+        error: 'Failed to stop audio capture.',
+      }));
+      throw error;
+    }
+  }, []);
+
   // Toggle audio capture
   const toggleAudioCapture = useCallback(async () => {
     if (audioState.isActive) {
-      // Stop audio capture
-      try {
-        audioService.stopCapture();
-        setAudioState(prevState => ({
-          ...prevState,
-          isActive: false,
-          isListening: false,
-        }));
-      } catch (error) {
-        setAudioState(prevState => ({
-          ...prevState,
-          error: 'Failed to stop audio capture.',
-        }));
-      }
+      await stopCapture();
     } else {
-      // Start audio capture
-      try {
-        // Initialize audio if not already initialized
-        if (!audioState.isListening) {
-          const initialized = await audioService.initialize();
-          if (!initialized) {
-            throw new Error('Failed to initialize audio capture.');
-          }
-        }
-
-        // Start audio capture with a callback for handling audio data
-        audioService.startCapture((audioData) => {
-          // In a real application, this would send the audio data to the buffer service
-          // Here we're just setting the state to show it's working
-          console.log('Audio data received:', audioData.length);
-        });
-
-        setAudioState(prevState => ({
-          ...prevState,
-          isActive: true,
-          isListening: true,
-          error: null,
-        }));
-      } catch (error) {
-        console.error('Error starting audio capture:', error);
-        setAudioState(prevState => ({
-          ...prevState,
-          error: 'Failed to start audio capture. Please check your microphone permissions.',
-        }));
-      }
+      await startCapture();
     }
-  }, [audioState.isActive, audioState.isListening]);
+  }, [audioState.isActive, startCapture, stopCapture]);
 
   // Request microphone permission explicitly
   const requestMicrophonePermission = useCallback(async () => {
@@ -127,5 +152,11 @@ export const useAudioCapture = () => {
     toggleAudioCapture,
     requestMicrophonePermission,
     clearError,
+    startCapture,
+    stopCapture,
+    isCapturing,
+    audioChunks,
   };
-}; 
+};
+
+export default useAudioCapture; 
