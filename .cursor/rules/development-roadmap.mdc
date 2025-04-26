@@ -1,0 +1,40 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+## Development Roadmap: User Stories with Story Points
+
+#### Story 1: Project Foundation and Audio Capture
+- Initialize NextJS project with TypeScript and TailwindCSS
+- Implement basic application layout and component structure
+- Set up Web Audio API integration with microphone permissions
+- Create audio buffering mechanism for streaming
+- Implement basic controls UI (toggle switch, status indicators)
+
+#### Story 2: Real-time Communication System
+- Set up Socket.IO server and client for bidirectional communication
+- Implement audio streaming from client to server
+- Create API routes for session management
+- Develop audio chunk processing pipeline
+- Configure WebSocket event handling for real-time updates
+
+#### Story 3: WhisperX Integration
+- Install WhisperX and configure dependencies
+- Develop Python wrapper script for WhisperX functionality
+- Create Node.js child process management system
+- Implement JSON-based communication protocol between Node and Python
+- Add error handling and process lifecycle management
+- Test transcription capabilities with pre-recorded audio
+
+#### Story 4: Word Bubble Display System
+- Design and implement bubble UI components with appropriate styling
+- Create positioning and layout algorithm for multiple bubbles
+- Implement appearance and fade animations
+- Add click/tap handlers for user interactions
+- Develop typography and visual styling system
+
+#### Story 5: Word Lifecycle and Pinning Functionality
+- Implement word aging and fade-out timing system
+- Create pinning/unpinning mechanism for persistent words
+- Add visual indicators for pinned vs. temporary words

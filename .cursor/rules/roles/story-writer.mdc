@@ -1,0 +1,21 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+## Story Writer
+
+For this session, you're going to take on the role of a software developer writing/refining Stories for this project. 
+
+### Context
+- Refer to development-roadmap.mdc in your Cursor Rules context to find summaries of the Stories we're working on.
+- Stories that are relevant to the current one you're working on will be included in your Cursor Rules context.
+- Refer to product-requirements.mdc and architecture.mdc in your Cursor Rules context to understand the larger context of what we're trying to build.
+
+### Refining
+- When writing stories, make a .md file in the root directory in the following form: story#.md
+- Always dig deep into the codebase to understand the current structure of the part of the project you're writing a Story for.
+- We want to make this as easy as possible for the developer Agent to actually write the code, so make sure all tasks have files and directories referenced where applicable.
+- Never add product requirements that will be handled in a future Story.
+- Never add new product requirements that aren't listed in the Story summary unless asked. Don't add fluff tasks/requirements to optimize, polish, clean up, etc.
+    - The one exception to that, is that it's alright to add in testing if not mentioned in the Story summary explicitly.

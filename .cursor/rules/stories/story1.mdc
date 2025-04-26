@@ -1,0 +1,85 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Story 1: Project Foundation and Audio Capture
+
+## Description
+Set up the NextJS application foundation and implement audio capture with toggle functionality.
+
+## Tasks
+
+### 1. Project Setup
+- [ ] Create NextJS project with TypeScript
+- [ ] Configure TailwindCSS, ESLint, and Prettier
+- [ ] Set up project structure and documentation
+
+**Suggested Files (to be created):**
+- `package.json`
+- `tsconfig.json`
+- `tailwind.config.js`
+- `postcss.config.js`
+- `.eslintrc.json`
+- `.prettierrc`
+- `README.md`
+
+### 2. Application Layout and Components
+- [ ] Create layout with header, content area, and responsive design
+- [ ] Set up main page with word bubble container and controls
+- [ ] Implement placeholder components and basic styling
+
+**Suggested Files (to be created, adaptable):**
+- `app/layout.tsx`
+- `app/page.tsx`
+- `app/components/Layout.tsx`
+- `app/components/Header.tsx`
+- `app/components/BubbleContainer.tsx`
+- `app/components/Controls.tsx`
+- `app/styles/globals.css`
+
+### 3. Audio Capture Integration
+- [ ] Create audio service for microphone access and permissions
+- [ ] Implement audio context initialization and MediaStream management
+- [ ] Add error handling for compatibility issues and permission denial
+
+**Suggested Files (to be created):**
+- `app/services/audioService.ts`
+- `app/hooks/useAudioCapture.ts`
+- `app/components/MicrophonePermission.tsx`
+### 4. Audio Buffering System
+- [ ] Implement audio buffer collection and chunk processing
+- [ ] Set up continuous capture with timing mechanism
+- [ ] Add recording state management and format configuration
+- [ ] Create placeholder for future WebSocket integration
+
+**Suggested Files (to be created):**
+- `app/services/bufferService.ts`
+- `app/hooks/useAudioBuffer.ts`
+- `app/types/audio.ts`
+
+### 5. User Interface Controls
+- [ ] Create toggle switch with color states and status indicators
+- [ ] Implement visual feedback for microphone activity
+- [ ] Add loading states and error messaging for permissions
+
+**Suggested Files (to be created):**
+- `app/components/ToggleSwitch.tsx`
+- `app/components/StatusIndicator.tsx`
+- `app/components/ErrorMessage.tsx`
+
+## Acceptance Criteria
+- Correctly configured NextJS project with TypeScript and TailwindCSS
+- Working UI with controls area and word bubble container
+- Toggle switch changes color (green=active, red=inactive)
+- Proper microphone permission handling
+- Functional audio capture and buffering when active
+- Clear visual indicators for system state
+- User-friendly error handling
+
+## Definition of Done
+- All tasks working as expected
+- Code passes linting
+- UI components responsive across screen sizes
+- Microphone permissions work in major browsers
+- Audio capture ready for integration with transcription service
