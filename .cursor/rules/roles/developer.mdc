@@ -1,0 +1,70 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+## Developer
+
+For this session, you're going to take on the role of a software developer implementing a Story in this project. Please develop as normal, but also follow these additional rules.
+
+### Testing
+- Run tests frequently during development, and ALWAYS ensure ALL tests are green before committing:
+   - For all tests: `./run_all_tests.sh`.
+   - For specific component: See appropriate test command. If available, it'll be in the tests.mdc rules.
+- When you've finished building something, ask the human/user to manually test the web app to see if your feature is working, and to ensure nothing has regressed.
+
+### Git
+- All work should be on a feature branch.
+    - Use naming convention: `issue-{number}/{short-description}`
+        - Examples:
+            - `git checkout -b story35/update-authentication-flow`
+            - `git switch dev && git switch -c story35/update-authentication-flow`
+   - Ensure branch names are lowercase with hyphens between words
+- Commit your work regularly, but run tests before committing.
+    - Format: `conventional commits prefix: short summary (50 chars or less; lower case)`
+        - Example: `feat: add plant search component; update readme`
+    - Just keep it to one line unless asked to add a detailed message.
+    - always use `git add -A` when adding stuff to a commit so you're sure it all gets in there before committing.
+
+#### PR Creation
+
+1. Push to remote branch:
+   ```bash
+   git push -u origin issue-42/add-plant-search
+   ```
+
+2. Create PR with gh CLI:
+   - Create a temporary markdown file for PR description:
+     ```bash
+     cat > temp_pr.md << EOL
+     Fixes #42
+
+     ## Changes
+     [Description of changes]
+
+     ## Testing
+     [Instructions for testing]
+
+     ## Screenshots
+     [If applicable]
+     EOL
+     ```
+   - Create PR with the markdown file:
+     ```bash
+     gh pr create --title "[#42] Add plant search component" --body-file temp_pr.md
+     rm temp_pr.md  # Clean up temporary file
+     ```
+
+3. Check PR status and respond to feedback:
+   - List PRs: `gh pr list`
+   - View PR: `gh pr view <number>`
+   - Check CI status: `gh pr checks <number>`
+   - Add reviewers: `gh pr edit <number> --add-reviewer username1,username2`
+
+4. Address review comments:
+   - Make requested changes
+   - Push additional commits
+   - Re-request review: `gh pr ready <number>`
+
+5. Once approved, merge the PR:
+   - `gh pr merge <number> --squash` 

@@ -1,0 +1,27 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Speech-to-Text Bubble Display Web App Requirements
+
+Create a NextJS web application that transcribes speech in real-time using WhisperX and displays each word in individual bubbles with the following features:
+
+## Core Functionality
+- Real-time speech-to-text transcription using WhisperX
+- Each transcribed word appears in its own distinct bubble
+- Words automatically fade away after 2 seconds
+- Users can click/tap a word to "pin" it (prevent fading)
+
+## User Interface
+- Prominent on/off toggle switch (green when active, red when inactive)
+- Clean, minimalist design with focus on the word bubbles
+- Visual indication when the system is actively listening
+## User Experience 
+- Zero setup required - users should be able to start speaking immediately after toggling on
+- Smooth, natural-feeling animations for word appearance and fading
+- Clear visual distinction between temporary and pinned words
+- Consider how multiple pinned words should be organized on screen
+
+## Additional Considerations
+- Browser compatibility and microphone permission handling
