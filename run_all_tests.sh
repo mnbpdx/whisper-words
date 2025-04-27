@@ -19,6 +19,7 @@ MAX_MEMORY="2048"
 TIMEOUT="60000"
 SKIP_PROBLEMATIC=true
 FAIL_ON_LINT=false
+SILENT_MODE=true
 
 # Parse arguments
 while [[ $# -gt 0 ]]; do
@@ -47,6 +48,10 @@ while [[ $# -gt 0 ]]; do
       FAIL_ON_LINT=true
       shift
       ;;
+    --no-silent)
+      SILENT_MODE=false
+      shift
+      ;;
     *)
       TEST_PATH=$1
       shift
@@ -69,6 +74,10 @@ fi
 
 if [ "$COVERAGE" = true ]; then
   TEST_CMD="$TEST_CMD --coverage"
+fi
+
+if [ "$SILENT_MODE" = true ]; then
+  TEST_CMD="$TEST_CMD --silent"
 fi
 
 if [ ! -z "$TEST_PATH" ]; then
