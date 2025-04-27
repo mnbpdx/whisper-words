@@ -37,7 +37,7 @@ For this session, you're going to take on the role of a software developer imple
    - Create a temporary markdown file for PR description:
      ```bash
      cat > temp_pr.md << EOL
-     Fixes #42
+     Closes #42 (If we're working on a specific issue)
 
      ## Changes
      [Description of changes]
