@@ -1,0 +1,87 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Story 3: WhisperX Integration
+
+## Description
+Integrate WhisperX speech recognition system with the application to enable real-time transcription of audio streams.
+
+## Tasks
+
+### 1. WhisperX Installation and Configuration
+- [ ] Install WhisperX and its dependencies
+- [ ] Configure PyTorch and other required libraries
+- [ ] Set up model caching mechanism
+- [ ] Create environment configuration for WhisperX parameters
+
+**Suggested Files (to be created):**
+- `whisperx/requirements.txt`
+- `whisperx/config.py`
+- `app/config/whisperConfig.ts`
+- `.env.local` (update with WhisperX paths)
+
+### 2. Python Wrapper Script Development
+- [ ] Create Python script to interface with WhisperX
+- [ ] Implement command-line argument parsing for script options
+- [ ] Add functions for processing audio chunks
+- [ ] Implement word-level timing extraction
+- [ ] Create formatted JSON output structure
+
+**Suggested Files (to be created):**
+- `whisperx/transcribe.py`
+- `whisperx/utils.py`
+- `whisperx/models.py`
+- `whisperx/__init__.py`
+
+### 3. Node.js Child Process Management
+- [ ] Implement service for spawning Python processes
+- [ ] Create communication channel between Node.js and Python
+- [ ] Add process lifecycle management (start, monitor, terminate)
+
+**Suggested Files (to be created):**
+- `app/server/pythonProcessManager.ts`
+- `app/services/whisperService.ts`
+- `app/hooks/useWhisperX.ts`
+- `app/types/whisper.ts`
+### 4. JSON Communication Protocol
+- [ ] Define schema for messages between Node.js and Python
+- [ ] Implement serialization/deserialization utilities
+- [ ] Create message queuing system for handling high throughput
+- [ ] Add validation for incoming/outgoing messages
+
+**Suggested Files (to be created):**
+- `app/lib/messageProtocol.ts`
+- `whisperx/protocol.py`
+- `app/types/messages.ts`
+- `app/utils/validation.ts`
+
+### 5. Error Handling and Process Monitoring
+- [ ] Implement comprehensive error logging
+- [ ] Create system for monitoring process health
+- [ ] Add automatic recovery from process failures
+- [ ] Implement graceful degradation for service interruptions
+- [ ] Create user-facing error messaging
+
+**Suggested Files (to be created/modified):**
+- `app/lib/errorHandler.ts`
+- `app/components/ErrorDisplay.tsx`
+- `app/server/processMonitor.ts`
+- `app/utils/logging.ts`
+
+## Acceptance Criteria
+- WhisperX successfully installed and configured
+- Python wrapper script correctly interfaces with WhisperX
+- Node.js server can spawn, communicate with, and manage Python processes
+- JSON protocol enables reliable bidirectional communication
+- System handles errors gracefully with appropriate user feedback
+- Words with timestamps are correctly extracted from audio
+
+## Definition of Done
+- All tasks completed and working as expected
+- WhisperX integration tested with various audio inputs
+- Performance benchmarks meet or exceed requirements
+- Error handling covers common failure scenarios
+- Documentation updated with installation and configuration instructions
+- Integration tested with the existing audio capture and streaming system 

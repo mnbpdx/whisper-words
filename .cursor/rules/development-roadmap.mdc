@@ -5,14 +5,14 @@ alwaysApply: true
 ---
 ## Development Roadmap: User Stories with Story Points
 
-#### Story 1: Project Foundation and Audio Capture
+#### Story 1: Project Foundation and Audio Capture (COMPLETED)
 - Initialize NextJS project with TypeScript and TailwindCSS
 - Implement basic application layout and component structure
 - Set up Web Audio API integration with microphone permissions
 - Create audio buffering mechanism for streaming
 - Implement basic controls UI (toggle switch, status indicators)
 
-#### Story 2: Real-time Communication System
+#### Story 2: Real-time Communication System (COMPLETED)
 - Set up Socket.IO server and client for bidirectional communication
 - Implement audio streaming from client to server
 - Create API routes for session management

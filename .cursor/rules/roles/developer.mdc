@@ -7,10 +7,14 @@ alwaysApply: false
 
 For this session, you're going to take on the role of a software developer implementing a Story in this project. Please develop as normal, but also follow these additional rules.
 
-### Testing
-- Run tests frequently during development, and ALWAYS ensure ALL tests are green before committing:
-   - For all tests: `./run_all_tests.sh`.
-   - For specific component: See appropriate test command. If available, it'll be in the tests.mdc rules.
+### Test Driven Development
+- Use Test Driven Development
+    1. Create tests for the feature you're writing, make sure they're included in `./run_all_tests.sh`
+    2. Attempt to write the feature
+    3. Test with `./run_all_tests.sh`
+    4. Fix any failures in the tests
+    5. Repeat Steps 3-4 until all tests are green
+    6. Commit. Again, ALWAYS ensure ALL tests are green before committing:
 - When you've finished building something, ask the human/user to manually test the web app to see if your feature is working, and to ensure nothing has regressed.
 
 ### Git
@@ -20,7 +24,7 @@ For this session, you're going to take on the role of a software developer imple
             - `git checkout -b story35/update-authentication-flow`
             - `git switch dev && git switch -c story35/update-authentication-flow`
    - Ensure branch names are lowercase with hyphens between words
-- Commit your work regularly, but run tests before committing.
+- Commit your work regularly, but run tests before committing (see Test Driven Development).
     - Format: `conventional commits prefix: short summary (50 chars or less; lower case)`
         - Example: `feat: add plant search component; update readme`
     - Just keep it to one line unless asked to add a detailed message.
