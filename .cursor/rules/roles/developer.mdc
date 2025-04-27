@@ -12,10 +12,9 @@ For this session, you're going to take on the role of a software developer imple
     1. Create tests for the feature you're writing, make sure they're included in `./run_all_tests.sh`
     2. Attempt to write the feature
     3. Test with `./run_all_tests.sh`
-    4. Fix any failures in the tests
-    5. Repeat Steps 3-4 until all tests are green
+    4. Attempt to fix a single test failure.
+    5. Repeat Steps 3-4 until all tests are green. Run `./run_all_tests.sh` after every file change (attempted fix).
     6. Commit. Again, ALWAYS ensure ALL tests are green before committing:
-- When you've finished building something, ask the human/user to manually test the web app to see if your feature is working, and to ensure nothing has regressed.
 
 ### Git
 - All work should be on a feature branch.
