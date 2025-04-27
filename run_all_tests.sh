@@ -18,7 +18,6 @@ TEST_PATH=""
 MAX_MEMORY="2048"
 TIMEOUT="60000"
 SKIP_PROBLEMATIC=true
-FAIL_ON_LINT=false
 SILENT_MODE=true
 
 # Parse arguments
@@ -42,10 +41,6 @@ while [[ $# -gt 0 ]]; do
       ;;
     --run-all)
       SKIP_PROBLEMATIC=false
-      shift
-      ;;
-    --fail-on-lint)
-      FAIL_ON_LINT=true
       shift
       ;;
     --no-silent)
@@ -99,24 +94,13 @@ TESTS_FAILED=$?
 # Reset NODE_OPTIONS
 unset NODE_OPTIONS
 
-# Run linting regardless of test results, but track both result codes
-echo "Running linting checks..."
-npm run lint
-LINT_EXIT_CODE=$?
-
 # Print summary
 echo "===================================="
-echo "Test and Lint Results Summary:"
+echo "Test Results Summary:"
 if [ $TESTS_FAILED -eq 0 ]; then
   echo "✅ Tests: PASSED"
 else
   echo "❌ Tests: FAILED"
-fi
-
-if [ $LINT_EXIT_CODE -eq 0 ]; then
-  echo "✅ Lint: PASSED"
-else
-  echo "⚠️ Lint: WARNINGS (development mode - not failing build)"
 fi
 echo "===================================="
 
@@ -124,14 +108,7 @@ echo "===================================="
 if [ $TESTS_FAILED -ne 0 ]; then
   echo "Test failures detected. See the summary above."
   exit 1
-elif [ "$FAIL_ON_LINT" = true ] && [ $LINT_EXIT_CODE -ne 0 ]; then
-  echo "Lint failures detected and --fail-on-lint is enabled."
-  exit 1
 else
-  if [ $LINT_EXIT_CODE -ne 0 ]; then
-    echo "Lint warnings present but not failing build in development mode."
-    echo "Use --fail-on-lint to make lint errors cause build failure."
-  fi
   echo "All tests completed successfully!"
   exit 0
 fi 

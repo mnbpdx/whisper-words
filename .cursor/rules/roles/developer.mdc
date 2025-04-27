@@ -24,16 +24,23 @@ For this session, you're going to take on the role of a software developer imple
     - Format: `conventional commits prefix: short summary (50 chars or less; lower case)`
         - Example: `feat: add plant search component; update readme`
     - Just keep it to one line unless asked to add a detailed message.
-    - always use `git add -A` when adding stuff to a commit so you're sure it all gets in there before committing.
+    - Stage files for commit
+        - always use `git status` to check the 
+         then (if you wanna just add everything) `git add -A` so you're sure it all gets in there before committing.
 
 #### PR Creation
 
-1. Push to remote branch:
+1. Look at Commit difference with main to understand full extent of changes:
+   ```bash
+   git log
+   ```
+
+2. Push to remote branch:
    ```bash
    git push -u origin issue-42/add-plant-search
    ```
 
-2. Create PR with gh CLI:
+3. Create PR with gh CLI:
    - Create a temporary markdown file for PR description:
      ```bash
      cat > temp_pr.md << EOL
@@ -55,16 +62,16 @@ For this session, you're going to take on the role of a software developer imple
      rm temp_pr.md  # Clean up temporary file
      ```
 
-3. Check PR status and respond to feedback:
+4. Check PR status and respond to feedback:
    - List PRs: `gh pr list`
    - View PR: `gh pr view <number>`
    - Check CI status: `gh pr checks <number>`
    - Add reviewers: `gh pr edit <number> --add-reviewer username1,username2`
 
-4. Address review comments:
+5. Address review comments:
    - Make requested changes
    - Push additional commits
    - Re-request review: `gh pr ready <number>`
 
-5. Once approved, merge the PR:
+6. Once approved, merge the PR:
    - `gh pr merge <number> --squash` 
