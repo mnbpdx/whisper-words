@@ -1,5 +1,5 @@
 import { Server as NetServer } from 'http';
-import { NextRequest } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { Server as SocketIOServer } from 'socket.io';
 import { handleConnection } from '../../server/eventHandlers';
 
@@ -39,14 +39,10 @@ export function GET(req: NextRequest) {
     // Initialize Socket.IO server
     initSocketServer(req);
     
-    return new Response('Socket.IO server is running', {
-      status: 200
-    });
+    return NextResponse.json({ message: 'Socket.IO server is running' }, { status: 200 });
   } catch (error) {
     console.error('Socket.IO server error:', error);
-    return new Response('Internal Server Error', {
-      status: 500
-    });
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }
 
