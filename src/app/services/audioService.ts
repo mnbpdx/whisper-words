@@ -126,6 +126,14 @@ class AudioService {
     this.onAudioDataCallback = null;
   }
 
+  public getSampleRate(): number {
+    return this.audioContext?.sampleRate || this.options.sampleRate || 16000;
+  }
+
+  public getChannelCount(): number {
+    return this.options.channelCount || 1;
+  }
+
   private handleAudioProcess(event: AudioProcessingEvent): void {
     if (!this.isRecording || !this.onAudioDataCallback) return;
 

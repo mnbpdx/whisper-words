@@ -1,0 +1,86 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Story 2: Real-time Communication System
+
+## Description
+Implement the real-time communication system that enables audio streaming between client and server, setting up WebSocket connections and API routes for session management.
+
+## Tasks
+### 1. Socket.IO Setup
+- [ ] Install Socket.IO dependencies for client and server
+- [ ] Configure Socket.IO server in NextJS API route
+- [ ] Set up Socket.IO client integration with React
+- [ ] Implement connection handling and error recovery
+
+**Suggested Files (to be created):**
+- `app/api/socket/route.ts`
+- `app/services/socketService.ts`
+- `app/hooks/useSocketConnection.ts`
+- `app/lib/socketConfig.ts`
+
+### 2. Audio Streaming Implementation
+- [ ] Create audio data serialization for WebSocket transport
+- [ ] Extend the existing audio buffer service to stream data via Socket.IO
+- [ ] Implement server-side audio data receiving and processing
+- [ ] Add connection status indicators to the UI
+
+**Suggested Files (to be created/modified):**
+- `app/services/bufferService.ts` (modify)
+- `app/services/streamingService.ts`
+- `app/hooks/useAudioStreaming.ts`
+- `app/components/ConnectionStatus.tsx`
+
+### 3. Session Management API
+- [ ] Develop session creation and management endpoints
+- [ ] Implement session state tracking and persistence
+- [ ] Create user session identification mechanism
+- [ ] Set up clean session termination and resource cleanup
+
+**Suggested Files (to be created):**
+- `app/api/sessions/route.ts`
+- `app/services/sessionService.ts`
+- `app/hooks/useSession.ts`
+- `app/types/session.ts`
+
+### 4. Audio Chunk Processing Pipeline
+- [ ] Create server-side audio buffer collection mechanism
+- [ ] Implement audio format conversion if needed
+- [ ] Set up chunking logic for optimal processing
+- [ ] Add placeholders for future transcription integration
+
+**Suggested Files (to be created):**
+- `app/api/audio/process/route.ts`
+- `app/server/audioProcessor.ts`
+- `app/lib/audioUtils.ts`
+- `app/types/audio.ts` (modify)
+
+### 5. WebSocket Event Handling
+- [ ] Define WebSocket event types and payloads
+- [ ] Implement client-side event listeners and handlers
+- [ ] Create server-side event processing logic
+- [ ] Add error handling and reconnection strategies
+
+**Suggested Files (to be created):**
+- `app/lib/socketEvents.ts`
+- `app/hooks/useSocketEvents.ts`
+- `app/server/eventHandlers.ts`
+
+## Acceptance Criteria
+- Successful bidirectional WebSocket communication between client and server
+- Audio data properly serialized and streamed to the server
+- Server correctly receives and processes audio chunks
+- Session management API endpoints functioning as expected
+- Clear visual indicators for connection status
+- Robust error handling and reconnection strategies
+- Audio processing pipeline ready for WhisperX integration
+
+## Definition of Done
+- All tasks working as expected
+- WebSocket connections stable under various network conditions
+- Session management properly handles multiple users
+- Audio streaming performance optimized for low latency
+- All code passes linting and follows project conventions
+- Integration tests confirm end-to-end communication works
