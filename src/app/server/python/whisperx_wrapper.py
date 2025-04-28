@@ -56,36 +56,73 @@ def mock_transcribe(audio_data: np.ndarray, sample_rate: int) -> Dict[str, Any]:
         "text": " ".join([w["text"] for w in words])
     }
 
+# Get environment variables with defaults
+def get_env_config():
+    return {
+        "model": os.environ.get("WHISPERX_MODEL", "base"),
+        "language": os.environ.get("WHISPERX_LANGUAGE", "en"),
+        "batch_size": int(os.environ.get("WHISPERX_BATCH_SIZE", "16")),
+        "compute_type": os.environ.get("WHISPERX_COMPUTE_TYPE", "float16"),
+    }
+
 # Process audio with WhisperX
 def process_audio(audio_data: np.ndarray, sample_rate: int) -> Dict[str, Any]:
     whisperx = import_whisperx()
     
     if whisperx:
         try:
-            # For actual implementation
+            # Get configuration from environment
+            config = get_env_config()
+            
+            # Determine device
             device = "cuda" if whisperx.is_available("cuda") else "cpu"
-            logger.info(f"Processing with WhisperX on {device}")
+            logger.info(f"Processing with WhisperX on {device} using model {config['model']}")
             
-            # Load model
-            model = whisperx.load_model("base", device=device)
+            # Load model as recommended in WhisperX README
+            model = whisperx.load_model(
+                config["model"], 
+                device=device,
+                compute_type=config["compute_type"]
+            )
             
-            # Transcribe audio
-            result = model.transcribe(audio_data, batch_size=16)
+            # Transcribe audio with batching for efficiency
+            result = model.transcribe(audio_data, batch_size=config["batch_size"])
             
-            # Align words
-            model_a, metadata = whisperx.load_align_model(language_code=result["language"], device=device)
-            result = whisperx.align(result["segments"], model_a, metadata, audio_data, device)
+            # Load and apply alignment model
+            model_a, metadata = whisperx.load_align_model(
+                language_code=result["language"] if result.get("language") else config["language"], 
+                device=device
+            )
+            
+            # Align words for accurate timestamps
+            result = whisperx.align(
+                result["segments"], 
+                model_a, 
+                metadata, 
+                audio_data, 
+                device
+            )
             
             # Process word-level timestamps
             words = []
             for segment in result["segments"]:
-                for word in segment["words"]:
-                    words.append({
-                        "text": word["word"],
-                        "start": word["start"],
-                        "end": word["end"],
-                        "confidence": word.get("confidence", 0.9)
-                    })
+                if "words" in segment:
+                    for word in segment["words"]:
+                        words.append({
+                            "text": word["word"],
+                            "start": word["start"],
+                            "end": word["end"],
+                            "confidence": word.get("confidence", 0.9)
+                        })
+            
+            # Clean up to free GPU memory
+            del model
+            del model_a
+            if device == "cuda":
+                import gc
+                import torch
+                gc.collect()
+                torch.cuda.empty_cache()
             
             return {
                 "words": words,
