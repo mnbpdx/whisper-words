@@ -17,8 +17,8 @@ function handleConnection(io, socket) {
   });
 
   // Handle audio chunks
-  socket.on('audio_chunk', () => {
-    console.log(`Received audio chunk from ${socket.id}`);
+  socket.on('audio_chunk', (payload) => {
+    console.log(`Received audio chunk from ${socket.id}, chunkId: ${payload.chunkId}`);
 
     // Send a mock transcription response
     const response = {

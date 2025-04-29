@@ -5,6 +5,7 @@ import useSocketEvents from './useSocketEvents';
 import { AudioChunk } from '../types/audio';
 import { SocketEvent } from '../lib/socketConfig';
 import { TranscriptionResult } from '../lib/messageProtocol';
+import { v4 as uuidv4 } from 'uuid';
 
 interface UseAudioStreamingProps {
   enabled?: boolean;
@@ -83,10 +84,10 @@ export const useAudioStreaming = ({
     );
 
     emitEvent(SocketEvent.AUDIO_CHUNK, {
-      data: latestChunk.data,
+      chunkId: uuidv4(),
+      audioData: latestChunk.data,
       timestamp: latestChunk.timestamp,
       sampleRate: latestChunk.sampleRate,
-      channelCount: latestChunk.channelCount,
     });
 
     onChunkSent?.(latestChunk);
