@@ -152,6 +152,10 @@ function handleAudioChunk(io: Server, socket: Socket, payload: AudioChunkPayload
     return;
   }
 
+  console.log(
+    `[SERVER] Received audio chunk from socket ${socket.id}, session ${sessionId}. Timestamp: ${payload.timestamp}`
+  );
+
   // Record session activity
   sessionService.recordSessionActivity(sessionId);
 

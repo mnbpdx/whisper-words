@@ -6,7 +6,7 @@ export enum SocketEvent {
   ERROR = 'error',
   RECONNECT = 'reconnect',
   RECONNECT_ATTEMPT = 'reconnect_attempt',
-  
+
   // Custom app events
   AUDIO_CHUNK = 'audio_chunk',
   TRANSCRIPTION_RESULT = 'transcription_result',
@@ -29,6 +29,7 @@ export const defaultSocketOptions: SocketOptions = {
   transports: ['websocket', 'polling'],
 };
 
+// Path used by the custom server.js implementation
 export const SOCKET_PATH = '/api/socket';
 
 export interface ConnectionStatus {
@@ -41,4 +42,4 @@ export const initialConnectionStatus: ConnectionStatus = {
   connected: false,
   reconnecting: false,
   error: null,
-}; 
+};

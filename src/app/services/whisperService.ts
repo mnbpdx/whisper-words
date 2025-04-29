@@ -127,6 +127,8 @@ export class WhisperService extends EventEmitter {
       await this.start();
     }
 
+    console.log(`[WHISPER] Processing audio data: ${audioData.length} samples at ${sampleRate}Hz`);
+
     // Update status
     this.updateStatus({ lastActivity: Date.now() });
 
